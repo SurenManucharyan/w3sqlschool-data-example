@@ -5,7 +5,13 @@ import com.example.sql.model.entity.Products;
 import com.example.sql.services.CategoryService;
 import com.example.sql.services.ProductsService;
 import com.example.sql.services.SuppliersService;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 @RestController
 public class ProductsController {
@@ -47,4 +53,23 @@ public class ProductsController {
     public Products getProductById(@RequestParam("productId") int productId) {
         return productsService.getById(productId);
     }
+
+    @GetMapping("/getBestSellers")
+    public void getBestSellers() throws Exception {
+
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3sql_example");
+        Statement statement = conn.createStatement();
+        String sql = "SELECT  order_details.id,quantity,products.id,products.product_name,products.price  " +
+                "FROM order_details  left JOIN products ON order_details.product_id = products.id " +
+                "Order by  quantity desc;";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            System.out.println(resultSet.getInt("order_details.id"));
+            System.out.println(resultSet.getInt("quantity"));
+            System.out.println(resultSet.getInt("products.id"));
+            System.out.println(resultSet.getString("product_name"));
+            System.out.println(resultSet.getDouble("price"));
+        }
+    }
 }
+
