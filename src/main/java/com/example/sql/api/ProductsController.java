@@ -1,6 +1,7 @@
 package com.example.sql.api;
 
 import com.example.sql.model.dto.ProductsCreate;
+import com.example.sql.model.entity.OrderDetails;
 import com.example.sql.model.entity.Products;
 import com.example.sql.services.CategoryService;
 import com.example.sql.services.ProductsService;
@@ -55,7 +56,9 @@ public class ProductsController {
     }
 
     @GetMapping("/getBestSellers")
-    public void getBestSellers() throws Exception {
+    public OrderDetails getBestSellers() throws Exception {
+        Products product = new Products();
+        OrderDetails orderDetails = new OrderDetails();
 
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3sql_example");
         Statement statement = conn.createStatement();
@@ -64,12 +67,15 @@ public class ProductsController {
                 "Order by  quantity desc;";
         ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
-            System.out.println(resultSet.getInt("order_details.id"));
-            System.out.println(resultSet.getInt("quantity"));
-            System.out.println(resultSet.getInt("products.id"));
-            System.out.println(resultSet.getString("product_name"));
-            System.out.println(resultSet.getDouble("price"));
+            product.setId(resultSet.getInt("products.id"));
+            product.setProductName(resultSet.getString("product_name"));
+            product.setPrice(resultSet.getDouble("price"));
+
+            orderDetails.setId(resultSet.getInt("order_details.id"));
+            orderDetails.setQuantity(resultSet.getInt("quantity"));
+            orderDetails.setProduct(product);
         }
+        return orderDetails;
     }
 }
 
