@@ -135,9 +135,9 @@ public class TestController {
 
             Date orderDate = faker.date().birthday();
             List<Products> products = (List<Products>) productsService.listAll();
-            Customer customer = customerService.getById(15);
-            Shippers shipper = shippersService.getById(32);
-            Employee employee = employeeService.getById(24);
+            Customer customer = customerService.getById(13);
+            Shippers shipper = shippersService.getById(34);
+            Employee employee = employeeService.getById(27);
             Orders order = new Orders();
             Random random = new Random();
             int rand = 1 + random.nextInt(20) % 20;

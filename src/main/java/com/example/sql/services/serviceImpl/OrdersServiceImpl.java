@@ -4,6 +4,8 @@ import com.example.sql.model.dto.OrdersCreate;
 import com.example.sql.model.entity.*;
 import com.example.sql.repositories.OrdersRepository;
 import com.example.sql.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,13 +13,23 @@ import java.util.List;
 
 @Service
 public class OrdersServiceImpl extends BaseService<Orders, OrdersRepository> implements OrdersService {
+    @Lazy
     public CustomerService customerService;
+    @Lazy
     public EmployeeService employeeService;
+    @Lazy
     public ProductsService productsService;
+    @Lazy
     public ShippersService shippersService;
 
-    public OrdersServiceImpl(OrdersRepository repository) {
+    @Autowired
+    public OrdersServiceImpl(OrdersRepository repository, CustomerService customerService, EmployeeService employeeService,
+                             ProductsService productsService, ShippersService shippersService) {
         super(repository);
+        this.customerService = customerService;
+        this.employeeService = employeeService;
+        this.productsService = productsService;
+        this.shippersService = shippersService;
 
     }
 
