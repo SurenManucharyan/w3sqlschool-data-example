@@ -10,7 +10,7 @@ import com.example.sql.services.SuppliersService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
-import javax.persistence.StoredProcedureQuery;
+import javax.persistence.Query;
 import java.util.List;
 
 @RestController
@@ -57,10 +57,9 @@ public class ProductsController {
     }
 
     @GetMapping("/getBestSellers")
-    public List<BestSale> getBestSellers()  {
-        StoredProcedureQuery bestSale = entityManager.createNamedStoredProcedureQuery("bestSale");
-       return bestSale.getResultList();
-
+    public List<BestSale> getBestSellers() {
+        Query bestSale = entityManager.createNativeQuery(" call best_sale", BestSale.class);
+        return bestSale.getResultList();
     }
 }
 
