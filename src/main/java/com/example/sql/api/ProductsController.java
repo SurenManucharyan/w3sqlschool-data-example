@@ -2,11 +2,9 @@ package com.example.sql.api;
 
 import com.example.sql.model.dto.ProductsCreate;
 import com.example.sql.model.entity.BestSale;
-import com.example.sql.model.entity.OrderDetails;
 import com.example.sql.model.entity.Products;
-import com.example.sql.services.CategoryService;
 import com.example.sql.services.ProductsService;
-import com.example.sql.services.SuppliersService;
+import org.hibernate.Session;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -15,15 +13,13 @@ import java.util.List;
 
 @RestController
 public class ProductsController {
+
     private final ProductsService productsService;
-    private final SuppliersService suppliersService;
-    private final CategoryService categoryService;
+
     private final EntityManager entityManager;
 
-    public ProductsController(ProductsService productsService, SuppliersService suppliersService, CategoryService categoryService, EntityManager entityManager) {
+    public ProductsController(ProductsService productsService, EntityManager entityManager) {
         this.productsService = productsService;
-        this.suppliersService = suppliersService;
-        this.categoryService = categoryService;
         this.entityManager = entityManager;
     }
 
@@ -61,5 +57,7 @@ public class ProductsController {
         Query bestSale = entityManager.createNativeQuery(" call best_sale", BestSale.class);
         return bestSale.getResultList();
     }
+
+
 }
 

@@ -10,10 +10,11 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NamedNativeQueries({
-        @NamedNativeQuery(
-                name = "best_sale", query = "CALL best_sale()",
+        @NamedNativeQuery(name = "best_sale",
+                query = "CALL best_sale()",
                 resultClass = BestSale.class)
 })
+@Entity
 public class BestSale implements Serializable {
     @Id
     @Column(name = "order_details_id")
