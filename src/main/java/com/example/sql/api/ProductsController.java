@@ -57,7 +57,4 @@ public class ProductsController {
         Query bestSale = entityManager.createNativeQuery(" call best_sale", BestSale.class);
         return bestSale.getResultList();
     }
-
-
 }
-
